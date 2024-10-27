@@ -1,5 +1,6 @@
 
-"use client"; 
+
+"use client";
 
 import * as React from "react";
 import { Breadcrumb, BreadcrumbList, BreadcrumbItem, BreadcrumbLink, BreadcrumbSeparator } from "@/components/ui/breadcrumb";
@@ -10,6 +11,7 @@ import { useEffect } from "react";
 import "./globals.css";
 
 const validPaths = [
+  "/dashboard",
   "/companies/all-companies",
   "/companies/companies-request",
   "/vm-management",
@@ -22,15 +24,23 @@ export default function Layout({ children }: { children: React.ReactNode }) {
   const router = useRouter();
 
   const pageTitle =
-    pathname === "/companies/all-companies"
+    pathname === "/dashboard"
+      ? "Dashboard"
+      : pathname === "/companies/all-companies"
       ? "All Companies"
       : pathname === "/companies/companies-request"
-        ? "Registration Request"
-        : "Dashboard";
+      ? "Registration Request"
+      : pathname === "/vm-management"
+      ? "VM Management"
+      : pathname === "/payment"
+      ? "Payment"
+      : pathname === "/settings"
+      ? "Settings"
+      : "";
 
   useEffect(() => {
     if (!validPaths.includes(pathname)) {
-      router.push("/"); // Redirect to the dashboard ("/")
+      router.push("/dashboard"); // Redirect to dashboard if invalid path
     }
   }, [pathname, router]);
 
@@ -103,3 +113,4 @@ export default function Layout({ children }: { children: React.ReactNode }) {
     </html>
   );
 }
+
